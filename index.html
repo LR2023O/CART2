@@ -40,13 +40,13 @@
     justify-content: space-between;
     flex-wrap: wrap;
 
-     animation: fadeInDown 1s ease forwards;
+     animation: fadeInDown 2s ease forwards;
   }
 
   .logo-top {
     height: 100px;
 
-    animation: fadeInDown 1.2s ease forwards; /* Delay slightly after header */
+    animation: fadeInDown 2s ease forwards; /* Delay slightly after header */
   }
 
   .header-left h1 {
@@ -109,7 +109,7 @@
     padding: 20px;
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 1s ease, transform 1s ease;
+    transition: opacity 1s ease, transform 2s ease;
   }
 
   /* Mission boxes */
@@ -125,7 +125,7 @@
     padding: 20px;
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transition: opacity 0.8s ease, transform 2s ease;
     background: white;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -136,7 +136,7 @@
     padding: 20px;
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transition: opacity 0.8s ease, transform 2s ease;
     background: white;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -155,7 +155,7 @@
     max-width: 100%;
     border-radius: 10px;
     margin-top: 15px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 2s ease;
   }
 
   .box-section img:hover,
@@ -298,6 +298,35 @@
   display: none; /* Show only on small screens */
   z-index: 1001;
 }
+.social-icons {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.social-icons i {
+  font-size: 24px;        
+  margin: 0 10px;          
+  color: #fff;            
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.social-icons i:hover {
+  transform: scale(1.2);   
+  color: #ffd166;         
+}
+.multi-column-list ul {
+  color: #eba400;
+  column-count: auto;      
+  column-width: 200px;     
+  column-gap: 30px;        
+  list-style-type: disc;   
+  padding-left: 20px;
+  max-height: calc(1.5em * 5); /* Estimate 5 items high */
+}
+
+
+
 
   @media (max-width: 768px) {
   header {
@@ -400,6 +429,10 @@
   }
   .prev-btn, .next-btn{
     top: 60%;
+  }
+  .social-icons i {
+    font-size: 20px;
+    margin: 5px;
   }
   }
   .content-box {
@@ -579,7 +612,7 @@ process a sense of community ownership and accountability.</p>
   <div class="gallery-wrapper">
     <div class="gallery">
       <img src="sanitation_PhotoGrid.png" class="active" alt="Gallery 1" />
-      <img src="women2.jpg" alt="Gallery 2" />
+      <img src="women.jpg" alt="Gallery 2" />
       <img src="women6.jpg" alt="Gallery 3" />
     </div>
 
@@ -600,20 +633,77 @@ process a sense of community ownership and accountability.</p>
     <h4 id="more">More about us:</h4>
         <ul>
             <li><b>Founding date: </b>1st April, 2022</li>
-            <li><b>Management team: </b>Deputy Country Director:<b> Nicholas Rabach</b>
+            <li><b>Management team:</b> 
+              <ul>
+                <li><b style="color: #00acc1;">Deputy Country Director: </b><b>Nicholas Rabach</b>
                 (Over 15 years of leadership experience in humanitarian Project
                 Management and Business Development. Deep familiarity with
                 conflict and emergency contexts. Knowledge of humanitarian
                 principles including safeguarding, financial compliance and
                 accountability to affected populations. Donor familiarity includes EU,
-                UN agencies, USAID, BHA, GFFO and DKH) <br>
-                Head of Programs:</li><br>
+                UN agencies, USAID, BHA, GFFO and DKH) <br> </li>
+                <li><b style="color: #00acc1;">Partnership and Resource Mobilization Advisor for Europe: </b><b>Alfred Ayieye</b> 
+                (Alfred Ayieye brings a wealth of expertise to his role as CART’s Partnership and Resource Mobilization Advisor 
+                for Europe. Based in Switzerland, Alfred holds over a decade of experience in international development and 
+                humanitarian aid. He is a seasoned professional dedicated to fostering transformative partnerships 
+                and securing sustainable resources to advance CART’s mission of empowering rural communities through 
+                sustainable development, food security, and social justice.
+                <div class="read-more-content" id="more-text3">
+                <p>
+                  Alfred’s career is marked by a proven track record in strategic partnership development and resource
+                  mobilization across multilateral, bilateral, and private sector entities. He has cultivated strong 
+                  relationships with key stakeholders, including international NGOs, donors, and community-based 
+                  organizations, ensuring alignment with global best practices in humanitarian and development work. 
+                  His expertise includes conducting in-depth donor mapping, analyzing funding trends, and designing tailored 
+                  engagement strategies to secure long-term support for impactful programs. Alfred is adept at facilitating 
+                  high-level meetings, fostering collaborative dialogue, and driving follow-up actions to translate 
+                  opportunities into tangible outcomes.
+                  </p><p>Alfred holds advanced qualifications in international development and strategic management, 
+                  complemented by extensive experience working with diverse stakeholders across Europe and Africa. 
+                  Fluent in English and French, he is well-positioned to navigate the complex landscape of European 
+                  donor ecosystems, including institutions like the Swiss Agency for Development and Cooperation (SDC) 
+                  and international NGOs. His strategic insights and collaborative spirit make him a vital asset in 
+                  advancing CART’s mission to create lasting change in rural communities.
+                  For inquiries or partnership opportunities, Alfred can be reached at [insert contact details]. 
+
+                </p>
+    </div>
+
+    <!-- Text link toggle -->
+    <a class="read-more-link" onclick="toggleReadMore('more-text3', this)">Read More</a>
+  </div>
+                )</li>
+              </ul>
+                 
+            <li>
+              <b>Our Patners: </b>
+              <div class="multi-column-list">
+  <ul>
+    <li>UNOCHA</li>
+    <li>UNICEF</li>
+    <li>WFP</li>
+    <li>UNDP</li>
+    <li>CMA</li>
+    <li>UNMISS</li>
+    <li>FAO</li>
+    <li>CBM(<i>Christian Blind Mission</i>)</li>
+    <li>Mission 21</li>
+    <li>PRDA</li>
+    <li>Presbyterian Church of Sudan & South Sudan</li>
+    <li>HFO</li>
+    <li>DCA</li>
+    <li>UNFPA</li>
+  </ul>
+</div>
+              </ul>
+            </li>    
+
         </ul>
          <h2>Contact Us</h2>
     <p><i class="bi bi-envelope-paper"></i> Email: programs@cart-ss.org</p>
     <p><i class="bi bi-telephone"></i> Phone: +211 922618065</p>
     <p><i class="bi bi-whatsapp"></i> WhatsApp: +254 720436430</p>
-    <p>Address: 101 Humanity Lane, Care City</p>
+    
   </section>
 
   <div id="pointer" onclick="scrollToTop()">
@@ -621,7 +711,14 @@ process a sense of community ownership and accountability.</p>
 </div>
 
   <footer>
-    <p>&copy; Copyright &copy; 2022 CART-SS. All rights reserved.</p>
+    <div class="social-icons">
+  <i class="bi bi-twitter-x"></i>
+  <i class="bi bi-instagram"></i>
+  <i class="bi bi-facebook"></i>
+  <i class="bi bi-youtube"></i>
+  <i class="bi bi-tiktok"></i>
+</div>
+    <p>&copy; Copyright 2022 CART-SS. All rights reserved.</p>
   </footer>
 
  <script>
@@ -723,5 +820,3 @@ process a sense of community ownership and accountability.</p>
 
 </body>
 </html>
-
-
