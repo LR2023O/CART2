@@ -943,11 +943,12 @@ process a sense of community ownership and accountability.</p>
     });
   }
 
- // Wait until everything is fully loaded
     window.addEventListener("load", function(){
-        document.getElementById("loader").classList.add("hidden");
+        setTimeout(function(){
+            document.getElementById("loader").classList.add("hidden");
+        }, 3000); // 4000 = 4 seconds
     });
-    
+
 </script>
 
 </body>
