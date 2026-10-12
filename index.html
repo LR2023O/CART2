@@ -646,6 +646,76 @@
         font-size: 16px; 
     }
 }
+
+/* Base section state */
+section {
+  opacity: 0;
+  transform: translateY(45px);
+  transition:
+    opacity 0.75s ease,
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+/* Scrolling down: smooth upward reveal */
+section.scrolling-down {
+  transform: translateY(45px);
+}
+
+section.scrolling-down.show-section {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Scrolling up: softer downward reveal */
+section.scrolling-up {
+  transform: translateY(-35px) scale(0.97);
+}
+
+section.scrolling-up.show-section {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-duration: 0.9s;
+}
+
+/* Child elements */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.55s ease,
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* Children entering while scrolling down */
+.scrolling-down .reveal-item.show-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Children entering while scrolling up */
+.scrolling-up .reveal-item {
+  transform: translateY(-15px) scale(0.98);
+}
+
+.scrolling-up .reveal-item.show-item {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  section,
+  .reveal-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+    will-change: auto;
+  }
+}
+
 </style>
 
 </head>
@@ -953,45 +1023,69 @@ process a sense of community ownership and accountability.</p>
     });
   });
 
-  // Dynamic scroll reveal animation
+// Dynamic scroll reveal with distinct upward and downward effects
+document.addEventListener("DOMContentLoaded", () => {
+  let lastScrollY = window.scrollY;
 
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("show-section");
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const currentScrollY = window.scrollY;
+      const scrollingUp = currentScrollY < lastScrollY;
+      lastScrollY = currentScrollY;
 
-        // Animate children with a small stagger
-        const children = entry.target.querySelectorAll(".reveal-item");
+      entries.forEach((entry) => {
+        const section = entry.target;
+        const children = Array.from(
+          section.querySelectorAll(".reveal-item")
+        );
 
-        children.forEach((child, index) => {
-          child.style.transitionDelay = `${index * 100}ms`;
-          child.classList.add("show-item");
-        });
+        if (entry.isIntersecting) {
+          // Reset previous animation direction
+          section.classList.remove("scrolling-up", "scrolling-down");
 
-        // If you only want the animation once, uncomment this:
-        // observer.unobserve(entry.target);
-      } else {
-        // Remove this if you want the animation to happen only once
-        entry.target.classList.remove("show-section");
+          // Apply a different effect depending on scroll direction
+          section.classList.add(
+            scrollingUp ? "scrolling-up" : "scrolling-down"
+          );
 
-        const children = entry.target.querySelectorAll(".reveal-item");
+          section.classList.add("show-section");
 
-        children.forEach((child) => {
-          child.classList.remove("show-item");
-          child.style.transitionDelay = "0ms";
-        });
-      }
-    });
-  },
-  {
-    threshold: 0.15,
-    rootMargin: "0px 0px -80px 0px",
-  }
-);
+          // Reverse the stagger order when scrolling up
+          const orderedChildren = scrollingUp
+            ? [...children].reverse()
+            : children;
 
-document.querySelectorAll("section").forEach((section) => {
-  observer.observe(section);
+          orderedChildren.forEach((child, index) => {
+            child.style.setProperty(
+              "--reveal-delay",
+              `${Math.min(index * 90, 540)}ms`
+            );
+            child.classList.add("show-item");
+          });
+        } else {
+          // Reset when leaving the viewport so animations replay
+          section.classList.remove(
+            "show-section",
+            "scrolling-up",
+            "scrolling-down"
+          );
+
+          children.forEach((child) => {
+            child.classList.remove("show-item");
+            child.style.removeProperty("--reveal-delay");
+          });
+        }
+      });
+    },
+    {
+      threshold: 0.12,
+      rootMargin: "0px 0px -50px 0px",
+    }
+  );
+
+  document.querySelectorAll("section").forEach((section) => {
+    observer.observe(section);
+  });
 });
 
   // Gallery slideshow

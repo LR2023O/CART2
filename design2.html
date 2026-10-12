@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Christian Action for Rural Transformation</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="logo3.2.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="logo3.2.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="logo3.2.png">
+  <link rel="apple-touch-icon" href="logo3.2.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <link href="https://fonts.googleapis.com/css2?family=Quattrocento+Sans&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+  <script>document.documentElement.classList.add('js');</script>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  :root {
+    --teal: #005f73;
+    --teal-light: #0194b1;
+    --gold: #eba400;
+    --gold-soft: #ffd166;
+    --ease: cubic-bezier(.22, .8, .24, 1);
+  }
+
+  html { scroll-behavior: smooth; }
+  section[id], h4[id] { scroll-margin-top: 70px; }
+
+  body {
+    font-family: 'Quattrocento Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+    color: #333;
+  }
+
+  /* ---------- Scroll progress bar ---------- */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(90deg, var(--teal-light), var(--gold-soft));
+    transform-origin: left;
+    transform: scaleX(0);
+    z-index: 10002;
+  }
+
+  /* ---------- Header ---------- */
+  @keyframes fadeInDown {
+    0% { opacity: 0; transform: translateY(-30px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  header {
+    background: #fff;
+    color: var(--teal);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    animation: fadeInDown 1.2s var(--ease) both;
+    overflow: hidden;
+  }
+
+  .logo-top {
+    height: 100px;
+    transition: transform .6s var(--ease);
+  }
+  header .logo-top:hover { transform: rotate(-4deg) scale(1.06); }
+
+  .header-left h1 { margin: 0; font-size: 1.8em; }
+  .header-left p {
+    margin: 0;
+    font-size: 0.9em;
+    min-height: 1.3em;
+  }
+  .typed-cursor {
+    display: inline-block;
+    width: 2px; height: 1em;
+    background: var(--teal);
+    margin-left: 2px;
+    vertical-align: -2px;
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ---------- Nav ---------- */
+  nav {
+    background: var(--teal);
+    text-align: center;
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 900;
+    transition: padding .3s ease, box-shadow .3s ease;
+  }
+  nav.scrolled {
+    padding: 6px 0;
+    box-shadow: 0 4px 14px rgba(0,0,0,.25);
+  }
+
+  nav a {
+    position: relative;
+    color: white;
+    margin: 0 15px;
+    padding: 6px 0;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  nav a::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 100%; height: 2px;
+    background: var(--gold-soft);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform .35s var(--ease);
+  }
+  nav a:hover { color: var(--gold-soft); }
+  nav a:hover::after,
+  nav a.active::after { transform: scaleX(1); transform-origin: left; }
+  nav a.active { color: var(--gold-soft); }
+
+  #nav-backdrop {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.45);
+    opacity: 0;
+    transition: opacity .3s ease;
+    z-index: 999;
+  }
+
+  /* ---------- Layout boxes ---------- */
+  .flex-container-boxes {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 40px auto 20px;
+    padding: 0 10px;
+  }
+  .about-col { flex: 1 1 45%; }
+  .right-column {
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .box-section,
+  #activities, #contact, #impact, #gallery, .stats-strip {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 20px;
+  }
+  #activities, #contact, #impact, #gallery, .stats-strip {
+    max-width: 1185px;
+    margin: 20px auto;
+  }
+  #impact { display: flex; gap: 20px; }
+  #impact > div:first-child { flex: 1; }
+  #impact > div:last-child { flex: 1; }
+
+  /* ---------- Reveal on scroll (only when JS is on) ---------- */
+  .js [data-reveal] {
+    opacity: 0;
+    transition: opacity .9s var(--ease), transform .9s var(--ease);
+    transition-delay: var(--d, 0ms);
+    will-change: opacity, transform;
+  }
+  .js [data-reveal="up"]    { transform: translateY(40px); }
+  .js [data-reveal="left"]  { transform: translateX(-50px); }
+  .js [data-reveal="right"] { transform: translateX(50px); }
+  .js [data-reveal="zoom"]  { transform: scale(.92); }
+  .js [data-reveal].in-view { opacity: 1; transform: none; }
+
+  .box-section img, #activities img, #impact img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-top: 15px;
+    transition: transform 0.4s var(--ease), box-shadow 0.4s ease;
+  }
+  .box-section img:hover, #activities img:hover, #impact img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
+  #impact > div:last-child { overflow: hidden; border-radius: 10px; }
+  #impact > div:last-child img { width: 100%; margin-top: 0; }
+
+  .highlight {
+    background: none;
+    padding: 15px;
+    border-left: 5px solid var(--teal);
+    border-radius: 5px;
+    transition: transform .35s var(--ease), box-shadow .35s ease, border-color .35s ease;
+  }
+  .highlight:hover {
+    transform: translateX(6px);
+    border-left-color: var(--gold);
+    box-shadow: 0 0 10px rgb(0, 80, 107), 0 0 20px rgba(0, 120, 160, 0.9);
+  }
+
+  ul { padding-left: 20px; }
+
+  /* ---------- Stats strip ---------- */
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    text-align: center;
+    background: linear-gradient(135deg, var(--teal), var(--teal-light));
+    color: #fff;
+  }
+  .stat .num {
+    font-size: 2.6em;
+    font-weight: bold;
+    color: var(--gold-soft);
+    line-height: 1.1;
+  }
+  .stat .label { font-size: .95em; opacity: .95; margin-top: 4px; }
+
+  /* ---------- Focus areas ---------- */
+  .focus-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 14px;
+    margin: 18px 0;
+  }
+  .focus-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #f1f8fa;
+    border-radius: 10px;
+    border-left: 4px solid var(--teal);
+    font-weight: bold;
+    color: var(--teal);
+    transition: transform .3s var(--ease), background .3s ease, color .3s ease, box-shadow .3s ease;
+    cursor: default;
+  }
+  .focus-list li i { font-size: 1.5em; transition: transform .4s var(--ease); }
+  .focus-list li:hover {
+    transform: translateY(-5px);
+    background: var(--teal);
+    color: #fff;
+    box-shadow: 0 10px 18px rgba(0,95,115,.3);
+  }
+  .focus-list li:hover i { transform: scale(1.25) rotate(-8deg); color: var(--gold-soft); }
+
+  /* ---------- Read more (animated height) ---------- */
+  .read-more-content {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height .6s var(--ease), opacity .5s ease, margin .4s ease;
+    margin-top: 0;
+  }
+  .read-more-content.open { opacity: 1; margin-top: 10px; }
+
+  .read-more-link {
+    color: #0077b6;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.95em;
+    margin-top: 10px;
+    display: inline-block;
+    user-select: none;
+  }
+  .read-more-link:hover { color: var(--teal); }
+
+  /* ---------- Gallery ---------- */
+  #gallery { display: flex; align-items: flex-start; }
+  .gallery-wrapper {
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+    margin: auto;
+    touch-action: pan-y;
+  }
+  .gallery {
+    padding-top: 55px;
+    position: relative;
+    width: 100%;
+    display: grid;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .gallery img {
+    grid-area: 1 / 1;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    opacity: 0;
+    transform: scale(1.06);
+    transition: opacity .9s ease, transform 6s ease-out;
+    margin-top: 0;
+    pointer-events: none;
+  }
+  .gallery img.active { opacity: 1; transform: scale(1); }
+
+  .prev-btn, .next-btn {
+    position: absolute;
+    top: 60%;
+    transform: translateY(-50%);
+    background-color: rgba(102, 102, 102, 0.8);
+    color: white;
+    border: none;
+    font-size: 10px;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 10;
+    transition: background .3s ease, transform .3s ease;
+  }
+  .prev-btn { left: 5px; }
+  .next-btn { right: 5px; }
+  .prev-btn:hover, .next-btn:hover {
+    background-color: rgba(0, 95, 115, .9);
+    transform: translateY(-50%) scale(1.15);
+  }
+
+  .gallery-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .gallery-dots button {
+    width: 10px; height: 10px;
+    border-radius: 10px;
+    border: none;
+    padding: 0;
+    background: #c5d5da;
+    cursor: pointer;
+    transition: width .4s var(--ease), background .3s ease;
+  }
+  .gallery-dots button.active { width: 28px; background: var(--teal); }
+
+  .gallery-timer {
+    height: 3px;
+    background: #e3ecee;
+    border-radius: 3px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  .gallery-timer span {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: var(--gold);
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+  .gallery-timer span.run { animation: timer 10s linear forwards; }
+  .gallery-wrapper.paused .gallery-timer span { animation-play-state: paused; }
+  @keyframes timer { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+  .slideshow-description {
+    flex: 1;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    transition: opacity .35s ease, transform .35s ease;
+  }
+  .slideshow-description.swap { opacity: 0; transform: translateY(8px); }
+  .slideshow-description h3 { margin-top: 150px; color: var(--teal); }
+  .slideshow-description p { margin-bottom: 0; }
+
+  /* ---------- Contact / partners ---------- */
+  .multi-column-list ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .multi-column-list li {
+    background: #fff8e6;
+    border: 1px solid var(--gold);
+    color: #8a5f00;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: .95em;
+    transition: transform .3s var(--ease), background .3s ease, color .3s ease;
+  }
+  .multi-column-list li:hover {
+    transform: translateY(-3px) scale(1.06);
+    background: var(--gold);
+    color: #fff;
+  }
+
+  .contact-links p { margin: 10px 0; }
+  .contact-links a, .contact-links span.c {
+    color: inherit;
+    text-decoration: none;
+  }
+  .contact-links i {
+    display: inline-block;
+    color: var(--teal);
+    margin-right: 6px;
+    transition: transform .3s var(--ease);
+  }
+  .contact-links p:hover i { transform: scale(1.3) rotate(-10deg); color: var(--gold); }
+
+  .map-section { padding: 20px; text-align: center; }
+  .map-section h3 i { display: inline-block; animation: bob 2s ease-in-out infinite; color: #d62828; }
+  @keyframes bob { 50% { transform: translateY(-5px); } }
+  .map-container {
+    position: relative;
+    padding-bottom: 40%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.15);
+  }
+  .map-container iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
+  @media (min-width: 768px)  { .map-container { width: 80%; } }
+  @media (min-width: 1024px) { .map-container { width: 60%; } }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: var(--teal);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+  }
+  .social-icons { text-align: center; margin-top: 15px; }
+  .social-icons i {
+    font-size: 24px;
+    margin: 0 10px;
+    color: #fff;
+    transition: transform 0.3s var(--ease), color .3s ease;
+    cursor: pointer;
+    display: inline-block;
+  }
+  .social-icons i:hover { transform: translateY(-4px) scale(1.25); color: var(--gold-soft); }
+
+  /* ---------- Back to top (with progress ring) ---------- */
+  #pointer {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1002;
+    display: grid;
+    place-items: center;
+    background: conic-gradient(var(--teal-light) var(--p, 0%), #d7e3e7 0);
+    box-shadow: 0 4px 12px rgba(0,0,0,.25);
+    opacity: 0;
+    transform: translateY(20px) scale(.8);
+    pointer-events: none;
+    transition: opacity .35s ease, transform .35s var(--ease), box-shadow .3s ease;
+  }
+  #pointer.visible { opacity: 1; transform: none; pointer-events: auto; }
+  #pointer::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    background: #fff;
+    border-radius: 50%;
+  }
+  #pointer .bi { position: relative; font-size: 1.4rem; color: rgb(0, 120, 201); }
+  #pointer:hover { box-shadow: 0 0 10px rgb(0,179,255), 0 0 20px rgb(0,179,255); }
+
+  .menu-icon { display: none; }
+  .close-btn {
+    font-size: 2rem;
+    font-weight: bold;
+    color: rgb(0, 148, 197);
+    position: absolute;
+    top: 20px; left: 20px;
+    cursor: pointer;
+    display: none;
+    z-index: 1001;
+  }
+
+  /* ---------- Loader ---------- */
+  #loader {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, var(--teal), var(--teal-light));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10003;
+    color: white;
+    transition: opacity 0.8s ease, visibility 0.8s;
+  }
+  #loader.hidden { opacity: 0; visibility: hidden; }
+  .logo-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px; height: 120px;
+  }
+  .spinner-ring {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: 6px solid rgba(255,255,255,0.3);
+    border-top: 6px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 1;
+  }
+  .logo-container img {
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 2;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse { 50% { transform: scale(1.08); } }
+  .loading-text { margin-top: 20px; font-size: 20px; text-align: center; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 768px) {
+    header {
+      flex-direction: column;
+      align-items: flex-start;
+      padding-top: 80px;
+    }
+    header .logo-top { position: absolute; top: 10px; right: 20px; height: 60px; }
+    .header-left { width: 100%; text-align: left; margin-top: 20px; }
+
+    .menu-icon {
+      position: absolute;
+      top: 20px; left: 20px;
+      font-size: 2rem;
+      cursor: pointer;
+      display: block;
+      z-index: 1001;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: -100%;
+      width: 70%; height: 100%;
+      background: #fff;
+      display: block;
+      padding: 60px 20px;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      transition: left 0.35s var(--ease);
+      z-index: 1000;
+      color: var(--teal);
+      text-align: left;
+    }
+    nav.show { left: 0; }
+    nav a {
+      color: var(--teal);
+      display: block;
+      margin: 0;
+      padding: 12px 0;
+      transform: translateX(-20px);
+      opacity: 0;
+      transition: color .3s ease, transform .4s var(--ease), opacity .4s ease;
+    }
+    nav.show a { transform: none; opacity: 1; }
+    nav.show a:nth-of-type(1) { transition-delay: .10s; }
+    nav.show a:nth-of-type(2) { transition-delay: .16s; }
+    nav.show a:nth-of-type(3) { transition-delay: .22s; }
+    nav.show a:nth-of-type(4) { transition-delay: .28s; }
+    nav.show a:nth-of-type(5) { transition-delay: .34s; }
+    nav a::after { background: var(--gold); width: 40px; bottom: 6px; }
+    nav a:hover, nav a.active { color: var(--gold); }
+
+    #nav-backdrop { display: block; pointer-events: none; }
+    #nav-backdrop.show { opacity: 1; pointer-events: auto; }
+
+    .flex-container-boxes { flex-direction: column; }
+    .about-col, .right-column, #activities, #contact {
+      flex: 1 1 100%;
+      margin: 20px 10px;
+    }
+    #impact { display: block; margin: 20px 10px; }
+    #impact > div:last-child { margin-top: 15px; }
+    #gallery { display: block; margin: 20px 10px; }
+    .slideshow-description h3 { margin-top: 10px; }
+    .social-icons i { font-size: 20px; margin: 5px; }
+    .close-btn { display: block; }
+    .logo-container { width: 90px; height: 90px; }
+    .logo-container img { width: 60px; height: 60px; }
+    .spinner-ring { border-width: 5px; }
+    .loading-text { font-size: 14px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+    }
+    .js [data-reveal] { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+  <div id="progress-bar"></div>
+
+  <div id="loader">
+    <div class="logo-container">
+      <div class="spinner-ring"></div>
+      <img src="logo3.2.png" alt="Logo" />
+    </div>
+    <h3>Welcome...</h3>
+  </div>
+
+  <header>
+    <div class="header-left">
+      <h1>Christian Action for Rural Transformation</h1>
+      <p><span id="typed" data-text="Faith-Work-Integrity">Faith-Work-Integrity</span><span class="typed-cursor" id="typed-cursor" hidden></span></p>
+    </div>
+    <img src="logo2.jpg" alt="Logo" class="logo-top" />
+    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+  </header>
+
+  <div id="nav-backdrop" onclick="toggleMenu(false)"></div>
+
+  <nav id="main-nav">
+    <span class="close-btn" onclick="toggleMenu(false)">&#10005;</span>
+    <a href="#about">About Us</a>
+    <a href="#activities">Activities</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#more">More</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <section class="flex-container-boxes">
+    <!-- Left side: About us -->
+    <section class="box-section about-col" id="about" data-reveal="left">
+      <h2>About Us</h2>
+      <p>
+        We are a faith-inspired, non-profit, non-governmental organization founded in 2021 initially as a Community Based Organization (CBO), then later upgraded and registered as a National NGO in June 2023. CART-SS’ primary objective is to empower rural women with the tools, knowledge, and skills that they need to transform their lives, that of their families and communities for a more resilient and sustainable future.
+      </p>
+      <img src="peace.jpg" alt="About us image" />
+    </section>
+
+    <!-- Right side: Mission, Vision, Inspiration -->
+    <section class="right-column">
+      <section class="box-section mission-box" data-reveal="right" style="--d:0ms">
+        <div class="highlight">
+          <h2>Our Mission</h2>
+          <p>To empower communities by providing immediate relief and long-term support that fosters dignity, self-reliance, and resilience.</p>
+        </div>
+      </section>
+
+      <section class="box-section mission-box" data-reveal="right" style="--d:150ms">
+        <div class="highlight">
+          <h2>Our Vision</h2>
+          <p>Women, guided by Christ’s love and compassion, powering social and economic transformation in community.</p>
+        </div>
+      </section>
+
+      <section class="box-section mission-box" data-reveal="right" style="--d:300ms">
+        <div class="highlight">
+          <h2>What Inspires Us</h2>
+          <p>We are inspired by Christ’s teachings and action. Matthew chapter 5:14-16 underpins our humanitarian philosophy – <i>“You are the light of the world. A town built on a hill cannot be hidden...”</i></p>
+        </div>
+      </section>
+    </section>
+  </section>
+
+  <section class="flex-container-boxes">
+    <section class="box-section about-col" data-reveal="left">
+      <h2>Our Declaration</h2>
+      <p><br>We are inspired by the everlasting Christian message of love. We believe that the world is made
+      better and safer when we each extend a hand of support and give hope to those who critically
+      need it.</p>
+    </section>
+    <section class="right-column">
+      <section class="box-section mission-box" data-reveal="right">
+        <h2>Our geographical scope</h2>
+        <p>We work within the boundaries of South Sudan. Our intervention scope is broadly determined
+        by severity of need and vulnerability status of women their families and communities in selected
+        locations. So far, we have been partners in the implementation of projects in <b>Nothern Bahr El
+        Ghazal (Aweil North, Aweil East and Awil Center), Jonglei (Akobo, Nyirol, Fangak, Ayod Twic East
+        and Duk counties) and Upper Nile States (Ulang, Maiwut, Renk, Panyikang, Nasir counties).</b></p>
+      </section>
+    </section>
+  </section>
+
+  <!-- At a glance (figures taken from the page's own content) -->
+  <section class="stats-strip" data-reveal="zoom" aria-label="CART-SS at a glance">
+    <div class="stat"><div class="num"><span data-count="3">3</span></div><div class="label">States of operation</div></div>
+    <div class="stat"><div class="num"><span data-count="4">4</span></div><div class="label">Focus areas</div></div>
+    <div class="stat"><div class="num"><span data-count="14">14</span>+</div><div class="label">Partners</div></div>
+    <div class="stat"><div class="num"><span data-count="80">80</span>%</div><div class="label">Of women's income reinvested in family &amp; community</div></div>
+  </section>
+
+  <section id="impact" data-reveal="up">
+    <div>
+      <h2>Why women and girls?</h2>
+      Women in South Sudan are economic power-houses. They already play central roles in
+      agriculture, child care, informal trade and household management, yet still face disproportionate
+      barriers. Main barriers include limited access to capital, poor education, poor access to
+      healthcare and disruptive inter-communal conflict affecting agriculture and market access.
+      <div class="read-more-content" id="more-text">
+        <p>
+          Research shows that when women and girls are empowered within a peaceful environment, the
+          ripple effects are far reaching: they reinvest over 80 per cent of their income back into their
+          families and communities (compared to 30-40 per cent for men), boosting health, education, and
+          rural economies. The World Bank notes that closing gender gaps in socio-economic participation
+          could expand global GDP by a factor of up to 40 percent. South Sudan stands to benefit
+          significantly due to its young, growing population. <br>
+          Targeting women inside South Sudan is not just equitable, it is strategic. They are often the
+          backbone of the mainly agro-pastoral economy, producing 60 to 80 percent of food from farmlands
+          which they do not own. They also have limited rights to livestock and fixed asset ownership
+          and are often excluded from decision making. Empowering them to participate with resources
+          like savings and loans, skills training, healthcare support, peace advocacy or market access can
+          unlock productivity and transformative innovation. It has been established that women-led
+          businesses reinvest profits locally at higher rates, creating jobs and stabilizing communities (<i>ADB
+          2022</i>). Moreover, women’s inclusion fosters resilience and peace. Households led by
+          economically active women are better equipped to weather crises like climate shocks or intercommunal
+          conflict. Women’s leadership in economic development challenges patriarchal norms,
+          inspiring broader cultural shifts going forward.
+        </p>
+      </div>
+      <a class="read-more-link" role="button" tabindex="0" onclick="toggleReadMore('more-text', this)">Read More</a>
+    </div>
+    <div>
+      <img src="women2.jpg" alt="Impact image" />
+    </div>
+  </section>
+
+  <section id="activities" data-reveal="up">
+    <div>
+      <h2>Our specific intervention areas</h2>
+      We recognize that activities targeting women and girls in community span sectors that have a
+      direct and critical bearing on households. Our interventions, while specific, acknowledges the
+      convergence between these different intervention themes. CART-SS’ focus is therefore on the
+      following areas:
+      <ul class="focus-list" id="list">
+        <li data-reveal="up" style="--d:0ms"><i class="bi bi-heart-pulse"></i>Health and Nutrition</li>
+        <li data-reveal="up" style="--d:120ms"><i class="bi bi-shield-check"></i>Protection/Gender Based Violence (GBV)</li>
+        <li data-reveal="up" style="--d:240ms"><i class="bi bi-peace"></i>Peace building</li>
+        <li data-reveal="up" style="--d:360ms"><i class="bi bi-basket"></i>Food Security and Livelihood (FSL)</li>
+      </ul>
+      Cross cutting themes like disability inclusion, gender parity and climate resilience are integral to
+      all our implementation approaches except where a donor opts out.
+      <div class="read-more-content" id="more-text2">
+        <h2>Our approach</h2><br>
+        <p>We value partnerships. Our first-line partner are the women themselves. We work with them to
+        identify what works, set objectives, pin-point mobilizable resources in community, engage
+        relevant stakeholders then follow through the roadmap together. We believe participatory
+        approach provides the best mechanism to not only unlock latent capacity but also build into the
+        process a sense of community ownership and accountability.</p>
+      </div>
+      <a class="read-more-link" role="button" tabindex="0" onclick="toggleReadMore('more-text2', this)">Read More</a>
+    </div>
+  </section>
+
+  <section id="gallery" data-reveal="up">
+    <h2 style="padding-left: 20px;">Gallery</h2>
+
+    <div class="gallery-wrapper" id="gallery-wrapper">
+      <div class="gallery">
+        <img src="sanitation_PhotoGrid.png" class="active" alt="Gallery 1" />
+        <img src="women2.jpg" alt="Gallery 2" />
+        <img src="women6.jpg" alt="Gallery 3" />
+      </div>
+
+      <button class="prev-btn" onclick="showPrevious(true)" aria-label="Previous">&#10094;</button>
+      <button class="next-btn" onclick="showNext(true)" aria-label="Next">&#10095;</button>
+
+      <div class="gallery-dots" id="gallery-dots"></div>
+      <div class="gallery-timer"><span id="gallery-timer-bar"></span></div>
+    </div>
+
+    <div class="slideshow-description" id="slide-desc" style="padding-top: 10px;">
+      <h3 id="slide-title">Water, Sanitation &amp; Hygiene</h3>
+      <p id="slide-text">Young boy pumping borehole water.</p>
+    </div>
+  </section>
+
+  <section id="contact" data-reveal="up">
+    <h4 id="more">More about us:</h4>
+    <ul>
+      <li><b>Founding date: </b>1st April, 2022</li>
+      <li><b>Management team:</b>
+        <ul>
+          <li><b style="color: #005f73;">Deputy Country Director: </b><b>Nicholas Rabach</b>
+          (Over 15 years of leadership experience in humanitarian Project
+          Management and Business Development. Deep familiarity with
+          conflict and emergency contexts. Knowledge of humanitarian
+          principles including safeguarding, financial compliance and
+          accountability to affected populations. Donor familiarity includes EU,
+          UN agencies, USAID, BHA, GFFO and DKH) <br> </li>
+          <li><b style="color: #005f73;">Partnership and Resource Mobilization Advisor for Europe: </b><b>Alfred Ayieye</b>
+          (Alfred Ayieye brings a wealth of expertise to his role as CART’s Partnership and Resource Mobilization Advisor
+          for Europe. Based in Switzerland, Alfred holds over a decade of experience in international development and
+          humanitarian aid. He is a seasoned professional dedicated to fostering transformative partnerships
+          and securing sustainable resources to advance CART’s mission of empowering rural communities through
+          sustainable development, food security, and social justice.
+          <div class="read-more-content" id="more-text3">
+            <p>
+              Alfred’s career is marked by a proven track record in strategic partnership development and resource
+              mobilization across multilateral, bilateral, and private sector entities. He has cultivated strong
+              relationships with key stakeholders, including international NGOs, donors, and community-based
+              organizations, ensuring alignment with global best practices in humanitarian and development work.
+              His expertise includes conducting in-depth donor mapping, analyzing funding trends, and designing tailored
+              engagement strategies to secure long-term support for impactful programs. Alfred is adept at facilitating
+              high-level meetings, fostering collaborative dialogue, and driving follow-up actions to translate
+              opportunities into tangible outcomes.
+            </p><p>Alfred holds advanced qualifications in international development and strategic management,
+              complemented by extensive experience working with diverse stakeholders across Europe and Africa.
+              Fluent in English and French, he is well-positioned to navigate the complex landscape of European
+              donor ecosystems, including institutions like the Swiss Agency for Development and Cooperation (SDC)
+              and international NGOs. His strategic insights and collaborative spirit make him a vital asset in
+              advancing CART’s mission to create lasting change in rural communities.
+            </p>
+          </div>
+          <a class="read-more-link" role="button" tabindex="0" onclick="toggleReadMore('more-text3', this)">Read More</a>
+          )</li>
+        </ul>
+      </li>
+      <li>
+        <b>Our Patners: </b>
+        <div class="multi-column-list">
+          <ul id="partners">
+            <li>UNOCHA</li>
+            <li>UNICEF</li>
+            <li>WFP</li>
+            <li>UNDP</li>
+            <li>CMA</li>
+            <li>UNMISS</li>
+            <li>FAO</li>
+            <li>CBM(<i>Christian Blind Mission</i>)</li>
+            <li>Mission 21</li>
+            <li>PRDA</li>
+            <li>Presbyterian Church of Sudan &amp; South Sudan</li>
+            <li>HFO</li>
+            <li>DCA</li>
+            <li>UNFPA</li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+
+    <div class="map-section">
+      <h3><i class="bi bi-geo-alt-fill"></i>We are Located at: </h3>
+      <div class="map-container">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d56236.67988192757!2d31.527812755908688!3d4.856500619349126!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x17128048ec174df5%3A0xa2270b90a83d226c!2sJuba%20Town%2C%20South%20Sudan!5e1!3m2!1sen!2ske!4v1754671897058!5m2!1sen!2ske"
+          width="600"
+          height="200"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Map of Juba, South Sudan">
+        </iframe>
+      </div>
+    </div>
+    <p style="color: #eba400;"> Block 121, Juba town, Central Equatoria State,South Sudan.</p>
+
+    <h2>Contact Us</h2>
+    <div class="contact-links">
+      <p><i class="bi bi-envelope-paper"></i> Email: <a href="mailto:programs@cart-ss.org">programs@cart-ss.org</a></p>
+      <p><i class="bi bi-telephone"></i> Phone: <a href="tel:+211922618065">+211 922618065</a></p>
+      <p><i class="bi bi-whatsapp"></i> WhatsApp: <a href="https://wa.me/254720436430" target="_blank" rel="noopener noreferrer">+254 720436430</a></p>
+    </div>
+  </section>
+
+  <div id="pointer" onclick="scrollToTop()" role="button" aria-label="Back to top">
+    <i class="bi bi-caret-up-fill" id="topBtn"></i>
+  </div>
+
+  <footer>
+    <div class="social-icons">
+      <i class="bi bi-twitter-x"></i>
+      <i class="bi bi-instagram"></i>
+      <i class="bi bi-facebook"></i>
+      <i class="bi bi-youtube"></i>
+      <i class="bi bi-tiktok"></i>
+    </div>
+    <p>&copy; Copyright 2022 CART-SS. All rights reserved. <br>
+      <a href="https://lr2023o.github.io/Portfolio/" target="_blank" rel="noopener noreferrer" style="color: #eba400;">
+        <i>Created by LarryR</i>
+      </a>
+    </p>
+  </footer>
+
+<script>
+(function () {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+
+  /* ---------- Mobile menu ---------- */
+  const nav = $('#main-nav');
+  const backdrop = $('#nav-backdrop');
+  window.toggleMenu = function (force) {
+    const open = typeof force === 'boolean' ? force : !nav.classList.contains('show');
+    nav.classList.toggle('show', open);
+    backdrop.classList.toggle('show', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  $$('#main-nav a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleMenu(false); });
+
+  /* ---------- Reveal on scroll (staggers siblings automatically) ---------- */
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('in-view');
+      revealObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  $$('[data-reveal]').forEach(el => revealObserver.observe(el));
+
+  /* ---------- Animated counters ---------- */
+  function runCounter(el) {
+    const target = +el.dataset.count;
+    if (reduceMotion) { el.textContent = target; return; }
+    const duration = 1800;
+    const start = performance.now();
+    (function tick(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.round(target * eased);
+      if (t < 1) requestAnimationFrame(tick);
+    })(start);
+  }
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      $$('[data-count]', entry.target).forEach(el => { el.textContent = '0'; runCounter(el); });
+      counterObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.4 });
+  const stats = $('.stats-strip');
+  if (stats) counterObserver.observe(stats);
+
+  /* ---------- Scroll: progress bar, sticky nav, back-to-top ring ---------- */
+  const bar = $('#progress-bar');
+  const pointer = $('#pointer');
+  let ticking = false;
+  function onScroll() {
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    const y = window.scrollY || doc.scrollTop;
+    const ratio = max > 0 ? Math.min(y / max, 1) : 0;
+    bar.style.transform = 'scaleX(' + ratio + ')';
+    pointer.style.setProperty('--p', (ratio * 100).toFixed(1) + '%');
+    pointer.classList.toggle('visible', y > 100);
+    nav.classList.toggle('scrolled', y > 120);
+    ticking = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (!ticking) { requestAnimationFrame(onScroll); ticking = true; }
+  }, { passive: true });
+  onScroll();
+
+  window.scrollToTop = function () {
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  };
+
+  /* ---------- Scrollspy: highlight current section in nav ---------- */
+  const links = $$('#main-nav a');
+  const targets = links.map(a => ({ a, el: document.querySelector(a.getAttribute('href')) })).filter(t => t.el);
+  function setActive(a) { links.forEach(l => l.classList.toggle('active', l === a)); }
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const hit = targets.find(t => t.el === entry.target);
+      if (hit) setActive(hit.a);
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  targets.forEach(t => spy.observe(t.el));
+
+  /* ---------- Typed tagline ---------- */
+  const typed = $('#typed');
+  const cursor = $('#typed-cursor');
+  if (typed && !reduceMotion) {
+    const text = typed.dataset.text;
+    typed.textContent = '';
+    cursor.hidden = false;
+    let i = 0;
+    setTimeout(function type() {
+      typed.textContent = text.slice(0, ++i);
+      if (i < text.length) setTimeout(type, 90);
+      else setTimeout(() => { cursor.hidden = true; }, 2500);
+    }, 1400);
+  }
+
+  /* ---------- Read more (smooth height) ---------- */
+  window.toggleReadMore = function (id, link) {
+    const el = document.getElementById(id);
+    const open = !el.classList.contains('open');
+    if (open) {
+      el.classList.add('open');
+      el.style.maxHeight = el.scrollHeight + 'px';
+    } else {
+      el.style.maxHeight = el.scrollHeight + 'px';
+      void el.offsetHeight;
+      el.classList.remove('open');
+      el.style.maxHeight = '0px';
+    }
+    link.textContent = open ? 'Read Less' : 'Read More';
+    // keep nested/parent containers tall enough while open
+    if (open) setTimeout(() => { if (el.classList.contains('open')) el.style.maxHeight = 'none'; }, 650);
+  };
+  $$('.read-more-link').forEach(l => l.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); l.click(); }
+  }));
+
+  /* ---------- Gallery ---------- */
+  const imgs = $$('#gallery .gallery img');
+  const title = $('#slide-title');
+  const text = $('#slide-text');
+  const desc = $('#slide-desc');
+  const dotsWrap = $('#gallery-dots');
+  const timerBar = $('#gallery-timer-bar');
+  const wrapper = $('#gallery-wrapper');
+
+  const titles = [
+    "Water, Sanitation & Hygiene",
+    "Data Collection",
+    "Education Campaigns"
+  ];
+  const descriptions = [
+    "Young boy pumping borehole water.",
+    "Enumerator conducting data collection as part of humanitarian operations research.",
+    "Peer counselling under nutrition project in Upper Nile, South Sudan."
+  ];
+
+  let current = 0;
+  let timeoutId = null;
+  const SLIDE_MS = 10000;
+  let remaining = SLIDE_MS;
+  let startedAt = 0;
+
+  imgs.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    b.addEventListener('click', () => goTo(i, true));
+    dotsWrap.appendChild(b);
+  });
+  const dots = $$('button', dotsWrap);
+
+  function restartTimerBar() {
+    timerBar.classList.remove('run');
+    void timerBar.offsetWidth;
+    timerBar.classList.add('run');
+  }
+  function schedule(ms) {
+    clearTimeout(timeoutId);
+    remaining = ms;
+    startedAt = performance.now();
+    timeoutId = setTimeout(() => goTo((current + 1) % imgs.length), ms);
+  }
+  function goTo(index, manual) {
+    current = (index + imgs.length) % imgs.length;
+    imgs.forEach((im, i) => im.classList.toggle('active', i === current));
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    desc.classList.add('swap');
+    setTimeout(() => {
+      title.textContent = titles[current];
+      text.textContent = descriptions[current];
+      desc.classList.remove('swap');
+    }, 300);
+    restartTimerBar();
+    if (!wrapper.classList.contains('paused')) schedule(SLIDE_MS);
+    else remaining = SLIDE_MS;
+  }
+  window.showNext = (manual) => goTo(current + 1, manual);
+  window.showPrevious = (manual) => goTo(current - 1, manual);
+
+  function pause() {
+    if (wrapper.classList.contains('paused')) return;
+    wrapper.classList.add('paused');
+    clearTimeout(timeoutId);
+    remaining = Math.max(0, remaining - (performance.now() - startedAt));
+  }
+  function resume() {
+    if (!wrapper.classList.contains('paused')) return;
+    wrapper.classList.remove('paused');
+    schedule(remaining || SLIDE_MS);
+  }
+  wrapper.addEventListener('mouseenter', pause);
+  wrapper.addEventListener('mouseleave', resume);
+
+  // Swipe support
+  let touchX = null;
+  wrapper.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; pause(); }, { passive: true });
+  wrapper.addEventListener('touchend', e => {
+    if (touchX !== null) {
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 40) (dx < 0 ? showNext : showPrevious)(true);
+      touchX = null;
+    }
+    resume();
+  });
+
+  // Only run the autoplay while the gallery is on screen and the tab is visible
+  const galleryVisible = new IntersectionObserver(([entry]) => {
+    entry.isIntersecting ? resume() : pause();
+  }, { threshold: 0.2 });
+  galleryVisible.observe($('#gallery'));
+  document.addEventListener('visibilitychange', () => document.hidden ? pause() : resume());
+
+  dots[0].classList.add('active');
+  restartTimerBar();
+  schedule(SLIDE_MS);
+  pause(); // start paused until the gallery scrolls into view
+
+  /* ---------- Loader: hide as soon as the page is ready ---------- */
+  const loader = $('#loader');
+  const hideLoader = () => loader.classList.add('hidden');
+  window.addEventListener('load', () => setTimeout(hideLoader, 900));
+  setTimeout(hideLoader, 4000); // safety net if an image is slow
+})();
+</script>
+
+</body>
+</html>
